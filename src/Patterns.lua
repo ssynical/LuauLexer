@@ -4,11 +4,28 @@
 
 local patterns = {
 	{
+		-- multiline string patterns
 		pattern = "^%[%[.-%]%]",
 		name = "string"
 	},
 	{
-		pattern = "^([\"']).-%1",
+		-- Line comments
+		pattern = "^%-%-[^\n]*",
+		name = "comment"
+	},
+	{
+		-- Block comments
+		pattern = "^%-%-%[%[.-%]%]",
+		name = "comment"
+	},
+	{
+		-- Improved string pattern to better handle escaped quotes
+		pattern = "^([\"']).-[^\\]%1",
+		name = "string"
+	},
+	{
+		-- Empty strings
+		pattern = "^([\"'])%1",
 		name = "string"
 	},
 	{
@@ -24,12 +41,18 @@ local patterns = {
 		name = "int"
 	},
 	{
-		pattern = "^%w+",
-		name = "word"
+		-- mutli-char operators
+		pattern = "^(==|~=|<=|>=|%.%.%.?|[%-%+/%*=<>])",
+		name = "operator"
 	},
 	{
-		pattern = "^([%-%+/%*=])",
-		name = "operator"
+		-- tables, parentheses, etc
+		pattern = "^([{}%(%)%[%]%;%,:%.])",
+		name = "punctuation"
+	},
+	{
+		pattern = "^%w+",
+		name = "word"
 	},
 	{
 		pattern = "^%s+",
